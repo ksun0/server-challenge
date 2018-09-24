@@ -1,5 +1,21 @@
 # Server chlalenge :rocket:
 
+## Installation
+1. Setup virtual environment and install dependencies from `requirements.txt`
+2. Setup db:
+  * `flask db init`
+  * `flask db migrate -m "users, rankings table"`
+  * `flask db upgrade`
+3. Run app.py
+4. Go to base route to create jennifer user and her rankings
+5. Run in shell:
+  * `flask shell`
+  * `from app import db, User, Ranking`
+  * `jennifer = User.query.get(1)`
+  * `jennifer.set_password('password')`
+6. GET clubs will read in from json file, POST will update the json file
+7. GET, POST rankings will read in jennifer's rankings from database
+
 ## Notes
 1. Implemented users
 2. TODO: request errors, assign different club lists to different users, we make jennifer global since only one user

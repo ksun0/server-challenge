@@ -40,7 +40,7 @@ class Ranking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Ranking {}>'.format(self.ranking_jsonstr)
+        return self.ranking_jsonstr
 
 clubs = []
 with open('club_list.json') as f:
@@ -48,6 +48,15 @@ with open('club_list.json') as f:
 
 @app.route('/')
 def main():
+    if len(User.query.all()) == 0:
+        jennifer = User(username='jennifer')
+        db.session.add(jennifer)
+        db.session.commit()
+
+    if len(Ranking.query.all()) == 0:
+        jennifer_ranking = Ranking(ranking_jsonstr=str(clubs), author=jennifer)
+        db.session.add(jennifer_ranking)
+        db.session.commit()
     return "Welcome to PennClubReview!"
 
 @app.route('/api')
@@ -74,31 +83,18 @@ def get_rankings():
     if len(User.query.all()) != 0:
         jennifer = User.query.get(1)
 
-        if len(Ranking.query.all()) == 0:
-            jennifer_ranking = Ranking(ranking_jsonstr=str(clubs), author=jennifer)
-            db.session.add(jennifer_ranking)
-            db.session.commit()
-
-        print(str(jennifer.rankings.all()))
-        return str(jennifer.rankings.all())
-    # else:
-    #     jennifer = User(username='jennifer')
-    #     db.session.add(jennifer)
-    #     db.session.commit()
+        print(str(jennifer.rankings[0]))
+        return str(jennifer.rankings[0])
 
 
 
 @app.route('/api/rankings', methods=['POST'])
 def change_rankings():
-    if len(Ranking.query.all()) == 0:
-        jennifer_ranking = Ranking(ranking_jsonstr=str(clubs), author=jennifer)
-        db.session.add(jennifer_ranking)
-        db.session.commit()
     if request.json:
-        for c in clubs:
+        for c in jennifer.rankings[0]:
             d.update((n, request.json['size']) for n, s in d.items() if n == request.json['name'])
 
-        return str(clubs)
+        return str(jennifer.rankings[0])
 
 @app.route('/user/<int:user_id>')
 def user(user_id):
