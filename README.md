@@ -1,5 +1,11 @@
 # Penn Server Challenge
 
+---
+
+Please check out the [documentation](DOCUMENTATION.md).
+
+---
+
 ## Installation
 1. Clone repo.
 2. Install packages using `pip install Flask`.
