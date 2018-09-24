@@ -20,3 +20,5 @@
 1. Implemented users
 2. TODO: request errors, assign different club lists to different users, we make jennifer global since only one user
 3. password set in shell for now (since no login forms)
+4. html/js views (have done a lot in the past with Django)
+5. Hosting (I'm experienced with DigitalOcean droplets, AWS, and Heroku)
