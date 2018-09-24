@@ -107,11 +107,3 @@ def user(user_id):
 
 if __name__ == '__main__':
     app.run()
-
-
-# TODO: request errors, assign different club list to different user, global since only jennifer
-# do this in shell, mention no need to login forms yet
-#
-# jennifer.set_password('ilovearun6789'), use form and python package
-#
-#
