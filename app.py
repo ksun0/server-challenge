@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
+from itertools import zip_longest
 
 db = SQLAlchemy()
 
@@ -82,19 +83,22 @@ def create_club():
 def get_rankings():
     if len(User.query.all()) != 0:
         jennifer = User.query.get(1)
-
-        print(str(jennifer.rankings[0]))
-        return str(jennifer.rankings[0])
-
+        jennifer_rankings = eval(jennifer.rankings[0].ranking_jsonstr)
+        print(jennifer_rankings)
+        return jennifer.rankings[0].ranking_jsonstr
 
 
 @app.route('/api/rankings', methods=['POST'])
 def change_rankings():
     if request.json:
-        for c in jennifer.rankings[0]:
-            d.update((n, request.json['size']) for n, s in d.items() if n == request.json['name'])
+        jennifer = User.query.get(1)
+        jennifer_rankings = eval(jennifer.rankings[0].ranking_jsonstr)
 
-        return str(jennifer.rankings[0])
+        for i in range(len(jennifer_rankings)):
+            if jennifer_rankings[i]['name'] == request.json['name']:
+                    jennifer_rankings[i] = {jennifer_rankings[i]['name']: str(request.json['size'])}
+
+        return str(jennifer_rankings)
 
 @app.route('/user/<int:user_id>')
 def user(user_id):
